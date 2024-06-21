@@ -18,6 +18,7 @@ Website ini adalah platform donasi yang dikembangkan menggunakan Laravel 11. Pro
 - [Screnshoot](#screenshot)
 - [Instalasi](#instalasi)
 - [Menjalankan Aplikasi](#jalankan)
+- [Kredit](#kredit)
 - [About & Help](#about)
 
 <!------------>
@@ -99,10 +100,19 @@ Setelah berhasil melakukan step-step instalasi diatas, sekarang jalankan aplikas
 <!------------>
 </br>
 
+## <a id="kredit"></a>【 Kredit 】
+Gambar-gambar tertentu diambil dari Google Images dan merupakan hak cipta dari pemiliknya masing-masing. Gambar-gambar ini digunakan hanya untuk tujuan ilustratif. Beberapa gambar yang digunakan dalam proyek ini diambil dari sumber-sumber berikut:
+- Sabang Merauke NEWS
+- Tempo Co
+- Deras Id
+
+<!------------>
+</br>
+
 ## <a id="about"></a>【 About and Help 】
 
 Untuk bantuan dan pertanyaan, silahkan hubungi sosial media saya:
 <img align="right" width="100" src="https://github.com/SirGhazian/praktikum-struktur-data-UNP/assets/142916107/b140fe43-3a57-4295-8493-79d929a5e3b0"> 
 
 - [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/ghazian_tza)
-- [![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?logo=YouTube&logoColor=white)](https://www.youtube.com/channel/UCIp_064wQ8RqNSEy1asx_4w) 
+- [![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?logo=YouTube&logoColor=white)](https://www.youtube.com/channel/UCIp_064wQ8RqNSEy1asx_4w)
