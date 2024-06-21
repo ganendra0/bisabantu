@@ -40,6 +40,7 @@ Website ini adalah platform donasi yang dikembangkan menggunakan Laravel 11. Pro
 
 - **Framework**: Laravel 11
 - **Database**: MySQL
+- **Dependency Manager**: Composer
 - **Front-end**: Blade Template Engine, Bootstrap
 
 <!------------>
