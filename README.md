@@ -17,6 +17,7 @@ Website ini adalah platform donasi yang dikembangkan menggunakan Laravel 11. Pro
 - [Tools yang Digunakan](#tools)
 - [Screnshoot](#screenshot)
 - [Instalasi](#instalasi)
+- [Menjalankan Aplikasi](#jalankan)
 - [About & Help](#about)
 
 <!------------>
@@ -52,15 +53,46 @@ test test
 ## <a id="instalasi"></a>【 Instalasi 】
 Setelah Anda melakukan cloning atau mengunduh secara manual repositori ini, jalankan prompt-prompt ini berikut pada terminal agar proyek dapat dijalankan:
 
-1. Migrasi database (Saat diminta konfirmasi, enter ``yes``)
+1. Clone repositori ini ke lokal Anda (skip step ini jika Anda mengunduh secara manual):
+   ```bash
+    git clone https://github.com/SirGhazian/webiste-donasi-laravel.git
+2. Instal dependensi PHP menggunakan Composer:
+    ```bash
+    cd website-donasi-laravel
+    composer install
+3. Ubah nama file `.env.example` menjadi `.env` dan sesuaikan line 22-27:
+    ```bash
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=donasi_database
+    DB_USERNAME=root
+    DB_PASSWORD=
+4. Migrasi database (Saat diminta konfirmasi, enter ``yes``)
    ```bash
    php artisan migrate
-3. Buat seed database untuk akun login
+5. Buat seed database untuk akun login
    ```bash
    php artisan db:seed AkunLogin
-4. Buat seed database untuk list donatur
+6. Buat seed database untuk list donatur
    ```bash
    php artisan db:seed ListDonatur
+7. Generate application key:
+    ```bash
+    php artisan key:generate
+
+<!------------>
+</br>
+
+## <a id="jalankan"></a>【 Menjalankan Aplikasi 】
+Setelah berhasil melakukan step-step instalasi diatas, sekarang jalankan aplikasi dengan prompt:
+1. Jalankan server pengembangan Laravel:
+    ```bash
+    php artisan serve
+2. Buka browser dan buka link:
+    ```bash
+    http://localhost:8000
+    ```
 
 <!------------>
 </br>
