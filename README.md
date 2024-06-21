@@ -54,13 +54,15 @@ test test
 Setelah Anda melakukan cloning atau mengunduh secara manual repositori ini, jalankan prompt-prompt ini berikut pada terminal agar proyek dapat dijalankan:
 
 1. Clone repositori ini ke lokal Anda (skip step ini jika Anda mengunduh secara manual):
-   ```bash
+    ```bash
     git clone https://github.com/SirGhazian/webiste-donasi-laravel.git
-2. Instal dependensi PHP menggunakan Composer:
+2. Buka folder repository yang telah diclone:
     ```bash
     cd website-donasi-laravel
+3. Instal dependensi PHP menggunakan Composer:
+    ```bash
     composer install
-3. Ubah nama file `.env.example` menjadi `.env` dan sesuaikan line 22-27:
+4. Ubah nama file `.env.example` menjadi `.env` dan sesuaikan line 22-27:
     ```bash
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
@@ -68,16 +70,16 @@ Setelah Anda melakukan cloning atau mengunduh secara manual repositori ini, jala
     DB_DATABASE=donasi_database
     DB_USERNAME=root
     DB_PASSWORD=
-4. Migrasi database (Saat diminta konfirmasi, enter ``yes``)
+5. Migrasi database (Saat diminta konfirmasi, enter ``yes``)
    ```bash
    php artisan migrate
-5. Buat seed database untuk akun login
+6. Buat seed database untuk akun login
    ```bash
    php artisan db:seed AkunLogin
-6. Buat seed database untuk list donatur
+7. Buat seed database untuk list donatur
    ```bash
    php artisan db:seed ListDonatur
-7. Generate application key:
+8. Generate application key:
     ```bash
     php artisan key:generate
 
