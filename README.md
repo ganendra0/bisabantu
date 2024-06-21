@@ -1,12 +1,10 @@
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/">
-  <source media="(prefers-color-scheme: light)" srcset="/">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/SirGhazian/webiste-donasi-laravel/assets/142916107/8b668175-edfd-4b37-9bb5-291754cd53c2">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/SirGhazian/webiste-donasi-laravel/assets/142916107/ea92ccf0-55e3-49bc-b743-78a1df2cffd3">
   <img alt="Header" height="80" >
 </picture>
 </div>
-
-
 
 <img src="/" width="100%" height="2px"/>
 <p/>
