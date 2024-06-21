@@ -6,7 +6,7 @@
 </picture>
 </div>
 
-<img src="/" width="100%" height="2px"/>
+<img src="https://github.com/SirGhazian/webiste-donasi-laravel/assets/142916107/cbff83f0-c91c-4291-9f02-9463e4533380" width="100%" height="2px"/>
 <p/>
 
 
