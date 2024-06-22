@@ -55,7 +55,7 @@
                                 {{ old('tipe_bayar', $donatur->tipe_bayar) == 'Gopay' ? 'checked' : '' }} required />
                             <span class="radio-tile">
                                 <span class="radio-icon">
-                                    <img src="https://i.ibb.co.com/CvKmD4q/opsi1-gopay.png" alt="Gopay" />
+                                    <img src="/images/pembayaran/opsi1-gopay.png" alt="Gopay" />
                                 </span>
                             </span>
                         </label>
@@ -66,7 +66,7 @@
                                 {{ old('tipe_bayar', $donatur->tipe_bayar) == 'Dana' ? 'checked' : '' }} required />
                             <span class="radio-tile">
                                 <span class="radio-icon">
-                                    <img src="https://i.ibb.co.com/ws6nm9L/opsi2-dana.png" alt="Dana" />
+                                    <img src="/images/pembayaran/opsi2-dana.png" alt="Dana" />
                                 </span>
                             </span>
                         </label>
@@ -78,7 +78,7 @@
                                 required />
                             <span class="radio-tile">
                                 <span class="radio-icon">
-                                    <img src="https://i.ibb.co.com/q0bjS35/opsi3-bca.png" alt="BCA Virtual Account" />
+                                    <img src="/images/pembayaran/opsi3-bca.png" alt="BCA Virtual Account" />
                                 </span>
                             </span>
                         </label>
