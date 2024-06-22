@@ -76,11 +76,13 @@
                         {{ session('error') }}
                     </div>
                     <div class="modal-footer">
-                        @if (Request::is('donasi'))
+                        {{-- @if (!Auth::check())
                             <a href="/session" class="btn btn-primary">Login</a>
-                        @endif
+                        @endif --}}
                         @if (Auth::check() && Auth::user()->jenisAkun === 'guest')
                             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        @else
+                            <a href="/session" class="btn btn-primary">Login</a>
                         @endif
                     </div>
                 </div>
