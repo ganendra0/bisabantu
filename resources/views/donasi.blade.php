@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <div class="card mb-3 mt-4" id="animated-card">
-            <img class="card-img-top" src="./images/index/header-2.png" alt="Card image cap" />
+            <img class="card-img-top" src="/images/index/header-2.png" alt="Card image cap" />
             <div class="card-body">
                 {{-- PARAGRAF 1 --}}
                 <h5 class="card-title">Bantu Mereka Korban Bencana Banjir</h5>

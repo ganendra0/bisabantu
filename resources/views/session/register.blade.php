@@ -1,8 +1,7 @@
 @extends('layouts.header')
-@section('title', 'Login')
+@section('title', 'Register')
 
 @section('content')
-
     <div class="d-flex justify-content-center">
         <form class="form" action="/session/create" method="POST">
             @csrf

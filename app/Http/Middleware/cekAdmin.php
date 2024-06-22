@@ -17,7 +17,7 @@ class cekAdmin
     public function handle(Request $request, Closure $next): Response
     {
         // Periksa apakah pengguna yang masuk adalah admin
-        if (Auth::check() && $request->user()->username === 'admin') {
+        if (Auth::check() && $request->user()->jenisAkun === 'admin') {
             return $next($request);
         }
 
