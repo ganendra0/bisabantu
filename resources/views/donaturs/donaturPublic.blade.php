@@ -4,12 +4,13 @@
 
 @section('content')
     <div class="container mt-5">
-        <h1 class="text-center mb-4" id="gradient">
-            <span id="headerTeks" class="fade-in">
+        <span class="fade-in">
+            <h1 class="text-center mb-4" id="gradient">
                 <i class="fa-solid fa-envelope-open-text"></i>
                 Daftar Donatur
-            </span>
-        </h1>
+            </h1>
+        </span>
+
         @if ($donaturs->isEmpty())
             <p class="text-center">Belum ada donatur.</p>
         @else
@@ -75,10 +76,8 @@
 
         .fa-envelope-open-text {
             font-size: 1.7rem;
-            vertical-align: middle;
             margin-right: 1rem;
-            position: relative;
-            top: -3px;
+            vertical-align: 15%;
         }
 
         .amount {
