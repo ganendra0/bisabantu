@@ -12,7 +12,9 @@ class Donation extends Model
     protected $fillable = [
         'name',
         'message', 
-        'target'
+        'target',
+        'gambar'
     ];
 
+    
 }

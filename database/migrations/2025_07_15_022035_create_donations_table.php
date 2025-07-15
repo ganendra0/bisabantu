@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('donations', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->text('message')->nullable();
-        $table->integer('target');
-        $table->timestamps(); // created_at & updated_at
-    });
+    $table->id();
+    $table->string('name');
+    $table->text('message')->nullable();
+    $table->integer('target');
+    $table->string('gambar')->nullable();
+    $table->timestamps();
+});
+
     }
 
     /**

@@ -25,27 +25,37 @@
         </div>
     @endif
 
-    <form action="{{ route('donations.update', $donation) }}" method="POST">
-        @csrf
-        @method('PUT')
-        
-        <div class="form-group">
-            <label>Nama:</label>
-            <input type="text" name="name" value="{{ old('name', $donation->name) }}" required>
-        </div>
+<form action="{{ route('donations.update', $donation) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 
-        <div class="form-group">
-            <label>Pesan:</label>
-            <textarea name="message" rows="4">{{ old('message', $donation->message) }}</textarea>
-        </div>
+    <div class="form-group">
+        <label>Nama:</label>
+        <input type="text" name="name" value="{{ old('name', $donation->name) }}" required>
+    </div>
 
-        <div class="form-group">
-            <label>Target Donasi (Rp):</label>
-            <input type="number" name="target" value="{{ old('target', $donation->target) }}" required min="1">
-        </div>
+    <div class="form-group">
+        <label>Pesan:</label>
+        <textarea name="message" rows="4">{{ old('message', $donation->message) }}</textarea>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Update Donasi</button>
-        <a href="{{ route('donations.index') }}" class="btn btn-secondary">Batal</a>
-    </form>
+    <div class="form-group">
+        <label>Target Donasi (Rp):</label>
+        <input type="number" name="target" value="{{ old('target', $donation->target) }}" required min="1">
+    </div>
+
+    <div class="form-group">
+  <label>Gambar:</label>
+  <input type="file" name="gambar">
+  @if($donation->gambar)
+    <br><img src="{{ asset('uploads/'.$donation->gambar) }}" width="120" style="margin-top:10px;">
+  @endif
+</div>
+
+
+    <button type="submit" class="btn btn-primary">Update Donasi</button>
+    <a href="{{ route('donations.index') }}" class="btn btn-secondary">Batal</a>
+</form>
+
 </body>
 </html>

@@ -7,6 +7,8 @@ use App\Http\Middleware\cekAdmin;
 use App\Http\Middleware\cekLogin;
 use App\Http\Controllers\DonationController;
 
+Route::resource('donations', DonationController::class);
+
 
 Route::get('/', function () {
     return view('index');

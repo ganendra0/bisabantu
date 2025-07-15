@@ -20,19 +20,25 @@
         </div>
     @endif
 
-    <form action="{{ route('donations.store') }}" method="POST">
-        @csrf
-        <label>Nama:</label><br>
-        <input type="text" name="name" value="{{ old('name') }}"><br><br>
+<form action="{{ route('donations.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
 
-        <label>Pesan:</label><br>
-        <textarea name="message">{{ old('message') }}</textarea><br><br>
+    <label>Nama:</label><br>
+    <input type="text" name="name"><br><br>
 
-        <label>Target Donasi (Rp):</label><br>
-        <input type="number" name="target" value="{{ old('target') }}"><br><br>
+    <label>Pesan:</label><br>
+    <textarea name="message"></textarea><br><br>
 
-        <button type="submit">Kirim Donasi</button>
-    </form>
+    <label>Target Donasi (Rp):</label><br>
+    <input type="number" name="target"><br><br>
+
+    <label>Upload Gambar:</label><br>
+    <input type="file" name="gambar"><br><br>
+
+    <button type="submit">Kirim Donasi</button>
+</form>
+
+
 </body>
 </html>
 
