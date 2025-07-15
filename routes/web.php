@@ -5,6 +5,8 @@ use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\cekAdmin;
 use App\Http\Middleware\cekLogin;
+use App\Http\Controllers\DonationController;
+
 
 Route::get('/', function () {
     return view('index');
@@ -30,3 +32,6 @@ Route::get('/session/register', [SessionController::class, 'register']);
 Route::post('/session/create', [SessionController::class, 'create']);
 
 Route::get('/session/logout', [SessionController::class, 'logout']);
+
+
+Route::resource('donations', DonationController::class);

@@ -3,42 +3,54 @@
 {{-- DASHBOARD ADMIN --}}
 
 @section('content')
+
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Daftar Donatur</h1>
+        <h1 class="text-center mb-4">Daftar Kampanye</h1>
         <div class="row">
             <div class="col-12">
-                @if ($donaturs->isEmpty())
-                    <p class="text-center">Belum ada donatur.</p>
+
+                @if(session('success'))
+                <p style="color: green">{{ session('success') }}</p>
+                @endif
+
+                    <a href="{{ route('donations.create') }}" class="btn btn-success">Tambah Donasi</a>
+
+
+                @if ($donations->isEmpty())
+                    <p class="text-center">Belum ada kampanye.</p>
                 @else
                     <div class="container-xxl">
                         <table class="table table-striped table-bordered">
                             <thead class="thead-dark">
                                 <tr>
+                                    <th>ID</th>
                                     <th>Nama</th>
                                     <th>Pesan</th>
-                                    <th class="text-center">Jumlah Donasi</th>
-                                    <th class="text-center">Metode</th>
+                                    <th class="text-center">Target (Rp)</th>
+                                    <th class="text-center">Tanggal</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($donaturs as $donatur)
+                                @foreach($donations as $donation)
                                     <tr>
-                                        <td>{{ $donatur->nama }}</td>
-                                        <td>{{ $donatur->pesan }}</td>
-                                        <td>Rp. {{ number_format($donatur->total_donasi, 0, ',', '.') }}</td>
-                                        <td>{{ $donatur->tipe_bayar }}</td>
+                                        <td>{{ $donation->id }}</td>
+                                        <td>{{ $donation->name }}</td>
+                                        <td>{{ $donation->message }}</td>
+                                        <td>Rp. {{ number_format($donation->target, 0, ',', '.') }}</td>
+                                        <td>{{ $donation->created_at }}</td>
+
                                         <td class="text-center">
-                                            <form action="{{ route('donaturs.destroy', $donatur->id) }}" method="POST">
-                                                <a href="{{ route('donaturs.edit', $donatur->id) }}"
+                                            <form action="{{ route('donations.destroy', $donation->id) }}" method="POST">
+                                                <a href="{{ route('donations.edit', $donation->id) }}"
                                                     class="btn btn-sm btn-primary">EDIT</a>
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
-                                                    data-target="#deleteModal{{ $donatur->id }}">HAPUS</button>
+                                                <button type="button" class="btn btnation btn-danger" data-toggle="modal"
+                                                    data-target="#deleteModal{{ $donation->id }}">HAPUS</button>
 
                                                 {{-- Notif Modal --}}
-                                                <div class="modal fade" id="deleteModal{{ $donatur->id }}" tabindex="-1"
+                                                <div class="modal fade" id="deleteModal{{ $donation->id }}" tabindex="-1"
                                                     role="dialog" aria-labelledby="exampleModalCenterTitle"
                                                     aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -74,12 +86,12 @@
         </div>
     </div>
 
-
     <style>
         .table {
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.096), 0 6px 30px rgba(0, 0, 0, 0.096);
         }
+    </style>
     </style>
 @endsection
