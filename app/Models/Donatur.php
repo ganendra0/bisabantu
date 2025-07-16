@@ -14,5 +14,11 @@ class Donatur extends Model
         'pesan',
         'total_donasi',
         'tipe_bayar',
+        'donation_id',
     ];
+
+    public function donation()
+    {
+        return $this->belongsTo(Donation::class);
+    }
 }

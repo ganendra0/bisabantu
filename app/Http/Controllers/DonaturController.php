@@ -28,19 +28,22 @@ class DonaturController extends Controller
     // ==== AWAL TAMBAH DATA ====
     public function create(): View
     {
-        $donaturs = Donatur::latest()->get();
-        return view('donaturs.create');
+        $donationId = request('donation_id');
+        $donation = null;
+        
+        if ($donationId) {
+            $donation = \App\Models\Donation::find($donationId);
+        }
+        
+        return view('donaturs.create', compact('donation'));
     }
     // ---- AKHIR TAMBAH DATA ----
 
     public function donasi(): View
     {
-        $donaturs = Donatur::latest()->get();
+        $donations = \App\Models\Donation::with('donaturs')->latest()->get();
 
-        $totalTerkumpul = $donaturs->sum('total_donasi');
-        $totalOrang = $donaturs->count();
-
-        return view('donasi', compact('totalTerkumpul', 'totalOrang'));
+        return view('donasi', compact('donations'));
     }
 
     // ==== AWAL SIMPAN DATA ====
@@ -65,7 +68,8 @@ class DonaturController extends Controller
             'nama'         => $request->nama,
             'pesan'        => $request->pesan,
             'total_donasi' => $total_donasi,
-            'tipe_bayar'   => $request->tipe_bayar
+            'tipe_bayar'   => $request->tipe_bayar,
+            'donation_id'  => $request->donation_id
         ]);
 
         return redirect('/donatur')->with(['success' => 'Data Berhasil Disimpan!']);

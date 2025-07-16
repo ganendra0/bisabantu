@@ -16,5 +16,13 @@ class Donation extends Model
         'gambar'
     ];
 
-    
+    public function donaturs()
+    {
+        return $this->hasMany(Donatur::class);
+    }
+
+    public function getTotalTerkumpulAttribute()
+    {
+        return $this->donaturs()->sum('total_donasi');
+    }
 }

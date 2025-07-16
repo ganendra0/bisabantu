@@ -2,13 +2,11 @@
 
 use App\Http\Controllers\DonaturController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\DonationController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\cekAdmin;
 use App\Http\Middleware\cekLogin;
-use App\Http\Controllers\DonationController;
-
-Route::resource('donations', DonationController::class);
-
 
 Route::get('/', function () {
     return view('index');
@@ -22,18 +20,16 @@ Route::middleware([cekLogin::class])->group(function () {
 });
 
 Route::resource('donaturs', DonaturController::class);
+
 Route::middleware([cekAdmin::class])->group(function () {
     Route::get('/dashboard', [DonaturController::class, 'index']);
+    Route::resource('donations', DonationController::class);
+    Route::resource('users', UserController::class);
 });
 
 // SESI LOGIN
 Route::get('/session', [SessionController::class, 'index']);
 Route::post('/session/login', [SessionController::class, 'login']);
-
 Route::get('/session/register', [SessionController::class, 'register']);
 Route::post('/session/create', [SessionController::class, 'create']);
-
 Route::get('/session/logout', [SessionController::class, 'logout']);
-
-
-Route::resource('donations', DonationController::class);

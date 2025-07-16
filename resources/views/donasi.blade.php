@@ -4,12 +4,15 @@
 
 @section('content')
     <div class="container">
-        <div class="card mb-3 mt-4" id="animated-card">
-            <img class="card-img-top" src="/images/index/header-2.png" alt="Card image cap" />
+        @foreach($donations as $donation)
+        <div class="card mb-3 mt-4" id="animated-card-{{ $loop->index }}">
+            <img class="card-img-top" src="{{ asset('uploads/'.$donation->gambar) }}" alt="{{ $donation->name }}" />
+        
             <div class="card-body">
                 {{-- PARAGRAF 1 --}}
-                <h5 class="card-title">Bantu Mereka Korban Bencana Banjir</h5>
-                <p class="card-text" id="total-donatur"><i class="fa-regular fa-circle-check"></i>{{ $totalOrang }} Orang
+                <h5 class="card-title">{{ $donation->name }}</h5>
+                <p class="card-text description">{{ $donation->message ?: 'Mari bersama-sama membantu mereka yang membutuhkan' }}</p>
+                <p class="card-text" id="total-donatur"><i class="fa-regular fa-circle-check"></i>{{ $donation->donaturs->count() }} Orang
                     Telah Berdonasi </i>
                 </p>
 
@@ -17,14 +20,14 @@
                     {{-- SECTION KIRI --}}
                     <div class="col-sm">
                         {{-- PARAGRAF 2 --}}
-                        <p class="card-text" id="total-kumpul">Rp {{ number_format($totalTerkumpul, 0, ',', '.') }}</p>
+                        <p class="card-text" id="total-kumpul">Rp {{ number_format($donation->total_terkumpul, 0, ',', '.') }}</p>
                         {{-- PARAGRAF 3 --}}
-                        <p class="card-text" id="total-jumlah">Terkumpul dari <strong>100.000.000</strong></p>
+                        <p class="card-text" id="total-jumlah">Terkumpul dari <strong>Rp {{ number_format($donation->target, 0, ',', '.') }}</strong></p>
                     </div>
 
                     {{-- SECTION KANAN --}}
                     <div class="col-sm text-right">
-                        <a href="/pembayaran">
+                        <a href="/pembayaran?donation_id={{ $donation->id }}">
                             {{-- TOMBOL DONASI --}}
                             <button class="pushable">
                                 <span class="shadow"></span>
@@ -37,7 +40,8 @@
 
                 <div class="progress">
                     @php
-                        $persentase = ($totalTerkumpul / 100000000) * 100;
+                        $persentase = $donation->target > 0 ? ($donation->total_terkumpul / $donation->target) * 100 : 0;
+                        $persentase = min($persentase, 100);
                     @endphp
 
                     <div class="progress-bar" role="progressbar" style="width: {{ $persentase }}%;"
@@ -46,13 +50,21 @@
 
             </div>
         </div>
+        @endforeach
     </div>
 
     <style>
         /* ANIMASI */
-        #animated-card {
+        [id^="animated-card"] {
             animation: scrollUp 1s ease-in-out forwards;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.096), 0 6px 30px rgba(0, 0, 0, 0.096);
+        }
+
+        .description {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.4;
         }
 
         @keyframes scrollUp {
@@ -118,7 +130,7 @@
             }
 
             to {
-                width: {{ $persentase }}%;
+                width: 100%;
             }
         }
 

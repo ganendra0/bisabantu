@@ -9,13 +9,13 @@ class DonationController extends Controller
 {
     public function index()
     {
-        $donations = Donation::latest()->get();
-        return view('donation.index', compact('donations'));
+        $donations = Donation::with('donaturs')->latest()->get();
+        return view('admin.donations.index', compact('donations'));
     }
 
     public function create()
     {
-        return view('donation.create');
+        return view('admin.donations.create');
     }
 
   public function store(Request $request)
@@ -47,12 +47,12 @@ if ($request->hasFile('gambar')) {
 
     public function show(Donation $donation)
     {
-        return view('donation.show', compact('donation'));
+        return view('admin.donations.show', compact('donation'));
     }
 
     public function edit(Donation $donation)
     {
-        return view('donation.edit', compact('donation'));
+        return view('admin.donations.edit', compact('donation'));
     }
 
   public function update(Request $request, Donation $donation)

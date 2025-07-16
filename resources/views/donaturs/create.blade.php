@@ -6,6 +6,14 @@
     <div class="d-flex justify-content-center">
         <form class="form" action="{{ route('donaturs.store') }}" method="POST">
             @csrf
+            @if($donation)
+                <input type="hidden" name="donation_id" value="{{ $donation->id }}">
+                <div class="card" id="donation-info">
+                    <span class="title">{{ $donation->name }}</span>
+                    <p class="donation-desc">{{ $donation->message }}</p>
+                    <p class="donation-target">Target: <strong>Rp {{ number_format($donation->target, 0, ',', '.') }}</strong></p>
+                </div>
+            @endif
             <div class="card" id="card1">
                 <span class="title">Informasi Donatur</span>
                 <div class="group">
@@ -141,6 +149,22 @@
             display: flex;
             flex-direction: column;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.096), 0 6px 30px rgba(0, 0, 0, 0.096);
+        }
+
+        #donation-info {
+            margin-bottom: 7px;
+            text-align: center;
+        }
+
+        .donation-desc {
+            color: #666;
+            font-style: italic;
+            margin: 10px 0;
+        }
+
+        .donation-target {
+            color: #007bff;
+            font-size: 16px;
         }
 
         #card1 {

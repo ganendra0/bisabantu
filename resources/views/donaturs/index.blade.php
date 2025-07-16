@@ -1,17 +1,20 @@
-@extends('layouts.header')
+@extends('layouts.admin')
 @section('title', 'Daftar Donatur')
-{{-- DASHBOARD ADMIN --}}
 
 @section('content')
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Daftar Donatur</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Daftar Donatur</h1>
+</div>
+
+<div class="card">
+    <div class="card-body">
         <div class="row">
             <div class="col-12">
                 @if ($donaturs->isEmpty())
                     <p class="text-center">Belum ada donatur.</p>
                 @else
-                    <div class="container-xxl">
-                        <table class="table table-striped table-bordered">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>Nama</th>
@@ -70,16 +73,6 @@
                         </table>
                     </div>
                 @endif
-            </div>
-        </div>
     </div>
-
-
-    <style>
-        .table {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.096), 0 6px 30px rgba(0, 0, 0, 0.096);
-        }
-    </style>
+</div>
 @endsection
