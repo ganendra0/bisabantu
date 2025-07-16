@@ -25,6 +25,26 @@
     </ol>
 </div>
 
+<form method="GET" action="{{ route('donaturs.public') }}" class="mb-4 text-center">
+    <label for="donation_id">Lihat Donatur untuk Kampanye:</label>
+    <select name="donation_id" id="donation_id" onchange="this.form.submit()" class="ml-2 p-1 rounded">
+    <option value="">-- Semua Kampanye --</option>
+    @foreach ($donations as $donation)
+        <option value="{{ $donation->id }}">
+    {{ $donation->name }}  {{-- ✅ sesuai kolom DB --}}
+</option>
+
+    @endforeach
+</select>
+</form>
+
+@if ($donationSelected)
+    <h3 class="text-center text-lg font-semibold mt-4">
+        Menampilkan Donatur untuk Kampanye: <span class="text-blue-600">{{ $donationSelected->name }}</span>
+    </h3>
+@endif
+
+
 
         @if ($donaturs->isEmpty())
             <p class="text-center">Belum ada donatur.</p>

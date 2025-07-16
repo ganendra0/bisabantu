@@ -17,22 +17,37 @@ class DonaturController extends Controller
         return view('donaturs.index', compact('donaturs'));
     }
 
-    public function tampilDonatur(): View
-    {
-        $donaturs = Donatur::latest()->get();
+    public function tampilDonatur(Request $request): View
+{
+    $donationId = $request->query('donation_id');
 
-        $leaderboard = DB::table('donaturs')
-            ->select('nama', DB::raw('SUM(total_donasi) as total_donasi'))
-            ->groupBy('nama')
-            ->orderByDesc('total_donasi')
-            ->limit(5)
-            ->get();
+    $query = Donatur::latest();
 
-        return view('donaturs.donaturPublic', [
-            'donaturs' => $donaturs,
-            'leaderboard' => $leaderboard
-        ]);
+    if ($donationId) {
+        $query->where('donation_id', $donationId);
+        $donationSelected = \App\Models\Donation::find($donationId); // Tambahkan ini
+    } else {
+        $donationSelected = null;
     }
+
+    $donaturs = $query->get();
+    $donations = \App\Models\Donation::all();
+
+    $leaderboard = DB::table('donaturs')
+        ->select('nama', DB::raw('SUM(total_donasi) as total_donasi'))
+        ->groupBy('nama')
+        ->orderByDesc('total_donasi')
+        ->limit(5)
+        ->get();
+
+    return view('donaturs.donaturPublic', compact(
+        'donaturs',
+        'donations',
+        'donationId',
+        'donationSelected',
+        'leaderboard'
+    ));
+}
 
     public function create(): View
     {

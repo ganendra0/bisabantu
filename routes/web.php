@@ -13,7 +13,7 @@ Route::get('/', function () {
 });
 
 Route::get('/donasi', [DonaturController::class, 'donasi']);
-Route::get('/donatur', [DonaturController::class, 'tampildonatur']);
+Route::get('/donatur', [DonaturController::class, 'tampilDonatur'])->name('donaturs.public');
 
 Route::middleware([cekLogin::class])->group(function () {
     Route::get('/pembayaran', [DonaturController::class, 'create']);
