@@ -11,6 +11,21 @@
             </h1>
         </span>
 
+        <div class="container mb-5">
+    <h2 class="text-center font-bold text-lg mb-3">🏆 Top Donatur</h2>
+    <ol class="list-decimal pl-5 leaderboard-list">
+        @forelse ($leaderboard as $index => $top)
+            <li class="mb-1">
+                <strong>{{ $top->nama }}</strong> –
+                <span class="text-green-500">Rp {{ number_format($top->total_donasi, 0, ',', '.') }}</span>
+            </li>
+        @empty
+            <p class="text-center">Belum ada donatur.</p>
+        @endforelse
+    </ol>
+</div>
+
+
         @if ($donaturs->isEmpty())
             <p class="text-center">Belum ada donatur.</p>
         @else
@@ -155,6 +170,18 @@
                 transform: translateY(0);
             }
         }
+
+        .leaderboard-list {
+    background: #f9fafb;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    font-size: 1rem;
+    color: #374151;
+}
+
     </style>
 
     <script>
