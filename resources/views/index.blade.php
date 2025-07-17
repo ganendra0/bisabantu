@@ -1,164 +1,65 @@
-@extends('layouts.header')
-@section('title', 'UNP Berbagi')
-{{-- TAMPILAN HOME --}}
+@extends('layouts.app')
+
+@section('title', 'Beranda - Donasi Sosial')
 
 @section('content')
-    {{-- AWAL SLIDE GAMBAR --}}
-    <div id="carouselExampleControls" class="carousel slide fade-in" data-ride="carousel">
-        <div class="carousel-caption d-none d-md-block">
-            <div class="header text-center">
-                <h1 class="text-black">Mereka Membutuhkan Kita.</h1>
-                <p class="text-black">Bersama kita bisa membuat perubahan</p>
-            </div>
-        </div>
-
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="/images/index/header-1.png" alt="Gambar1" />
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="/images/index/header-2.png" alt="Gambar2" />
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="/images/index/header-3.png" alt="Gambar3" />
-            </div>
-        </div>
-
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-    {{-- AKHIR SLIDE GAMBAR --}}
-
-    <!-- AWAL KONTEN BAWAH -->
-    <div class="content text-center mt-5 fade-in">
-        <button class="pushable" onclick="redirectDonasi()">
-            <span class="shadow"></span>
-            <span class="edge"></span>
-            <span class="front">Mulai Donasi</span>
-        </button>
-    </div>
-
-    <script>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Ulurkan Tangan, Ubah Kehidupan</h1>
+                <p class="hero-description">Bersama kita bisa menciptakan dampak positif yang nyata bagi masyarakat yang membutuhkan.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="redirectDonasi()">
+                        <span class="shadow"></span>
+                        <span class="edge"></span>
+                        <span class="front">Mulai Donasi</span>
+                </button>
+                <script>
         function redirectDonasi() {
             window.location.href = "/donasi";
         }
     </script>
-    {{-- AKHIR KONTEN BAWAH --}}
+                </div>
+            </div>
+        </div>
+    </section>
 
-
-    <style>
-        /* ANIMASI HALAMAN */
-        .fade-in {
-            opacity: 0;
-            animation: fadeInAnimation 1s ease-in forwards;
-        }
-
-        @keyframes fadeInAnimation {
-            0% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .carousel-caption {
-            top: 40%;
-            font-weight: 800;
-            font-style: normal;
-            text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        carousel-caption h1,
-        .carousel-caption p {
-            font-weight: 500;
-        }
-
-        .pushable {
-            position: relative;
-            background: transparent;
-            padding: 0px;
-            border: none;
-            cursor: pointer;
-            outline-offset: 4px;
-            outline-color: deeppink;
-            transition: filter 250ms;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
-
-        .shadow {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            background: hsl(226, 25%, 69%);
-            border-radius: 8px;
-            filter: blur(2px);
-            will-change: transform;
-            transform: translateY(2px);
-            transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
-        }
-
-        .edge {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 99%;
-            border-radius: 12px;
-            background: #073abb;
-        }
-
-        .front {
-            display: block;
-            position: relative;
-            border-radius: 12px;
-            background: #007bff;
-            padding: 16px 32px;
-            color: white;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 1rem;
-            transform: translateY(-4px);
-            transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
-        }
-
-        .pushable:hover {
-            filter: brightness(110%);
-        }
-
-        .pushable:hover .front {
-            transform: translateY(-6px);
-            transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
-        }
-
-        .pushable:active .front {
-            transform: translateY(-2px);
-            transition: transform 34ms;
-        }
-
-        .pushable:hover .shadow {
-            transform: translateY(4px);
-            transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
-        }
-
-        .pushable:active .shadow {
-            transform: translateY(1px);
-            transition: transform 34ms;
-        }
-
-        .pushable:focus:not(:focus-visible) {
-            outline: none;
-        }
-    </style>
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container about-content">
+            {{-- Path sudah benar menunjuk ke 'public/images/index/tentang-kami.png' --}}
+            {{-- Nama file telah diperbaiki untuk menghilangkan spasi --}}
+            <img src="{{ asset('images/index/tentang-kami.png') }}" width="550" height="310" alt="Tentang Kami" class="about-image">
+            <div class="about-text">
+                <div class="tag">Tentang Kami</div>
+                <h2 class="section-title">Misi Kami: Membangun Komunitas yang Lebih Baik</h2>
+                <p class="section-description">Kami adalah organisasi nirlaba yang berkomitmen membangun masa depan lebih baik bagi masyarakat kurang 
+                    beruntung melalui program donasi, pendidikan, dan aksi sosial yang berkelanjutan. Bersama para donatur dan relawan, kami percaya bahwa setiap aksi kebaikan, 
+                    sekecil apa pun, 
+                    dapat menciptakan perubahan besar dan membangun komunitas yang lebih peduli dan berdaya.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Call to Action Section -->
+    <section id="contact" class="cta-section">
+        <div class="container cta-content">
+            <div class="cta-text">
+                <h2 class="section-title">Ingin Terlibat Lebih Jauh?</h2>
+                <p class="section-description">Daftar untuk menerima pembaruan, berita kampanye, dan peluang sukarelawan.</p>
+            </div>
+            <div class="cta-form-container">
+                <form class="cta-form" method="POST" action="{{ url('/subscribe') }}">
+                    @csrf {{-- Token CSRF untuk keamanan form --}}
+                    <input type="email" name="email" placeholder="Masukkan email Anda" class="input cta-input" required>
+                    <button type="submit" class="btn btn-primary">Daftar</button>
+                </form>
+                <p class="cta-terms">
+                    Dengan mendaftar, Anda menyetujui
+                    <a href="{{ url('/syarat-ketentuan') }}" class="underline">Syarat & Ketentuan</a>.
+                </p>
+            </div>
+        </div>
+    </section>
 @endsection

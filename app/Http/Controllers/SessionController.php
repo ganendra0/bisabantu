@@ -6,85 +6,100 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Contracts\Session\Session;
+// use Illuminate\Contracts\Session\Session; // Ini tidak perlu di-import
 
 class SessionController extends Controller
 {
+    /**
+     * Menampilkan halaman login.
+     */
     function index()
     {
-        return view("session/index");
+        return view("session.index"); // Gunakan titik untuk path view
     }
 
-    // LOGIN 
+    /**
+     * Memproses request login dari pengguna.
+     */
     function login(Request $request)
     {
-        session()->flash('username', $request->username);
+        // 1. Validasi input
         $request->validate([
             'username' => 'required',
             'password' => 'required'
         ], [
-            'username.required' => 'username wajib diisi',
-            'password.required' => 'password wajib diisi'
+            'username.required' => 'Username wajib diisi.',
+            'password.required' => 'Password wajib diisi.'
         ]);
 
-        $infologin = [
+        // 2. Siapkan kredensial untuk login
+        $credentials = [
             'username' => $request->username,
             'password' => $request->password
         ];
 
-        if (Auth::attempt($infologin)) {
-            return redirect('/donasi');
-        } else {
-            return redirect()->back()->with('errorHeader', 'Login Gagal')->with('error', 'Harap periksa kembali username dan password Anda.');
+        // 3. Coba lakukan login
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate(); // Regenerasi session untuk keamanan
+            return redirect()->intended('/donasi'); // Redirect ke halaman yang dituju atau default ke /donasi
         }
+
+        // 4. Jika login gagal
+        return back()->withErrors([
+            'username' => 'Username atau password yang Anda masukkan salah.',
+        ])->onlyInput('username'); // Kembalikan ke halaman login dengan pesan error dan input username
     }
 
-    // LOGOUT - NAVBAR
-    function logout()
+    /**
+     * Memproses logout pengguna.
+     */
+    function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/'); // Redirect ke halaman utama atau halaman login
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/'); // Redirect ke halaman utama
     }
 
-    // REGISTER TAMPIL
+    /**
+     * Menampilkan halaman registrasi.
+     */
     function register()
     {
-        return view('session/register');
+        return view('session.register'); // Gunakan titik untuk path view
     }
 
-    // REGISTER DATA
+    /**
+     * Memproses data registrasi dan membuat user baru.
+     */
     function create(Request $request)
     {
+        // 1. Validasi input dengan aturan baru
         $request->validate([
-            'username' => 'required',
-            'password' => 'required'
+            'username' => 'required|string|max:255|unique:users,username',
+            'password' => 'required|string|min:6|confirmed', // INI PERUBAHAN UTAMANYA
         ], [
-            'username.required' => 'username wajib diisi',
-            'username.unique' => 'username sudah digunakan',
-            'password.required' => 'password wajib diisi'
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username ini sudah digunakan, silakan pilih yang lain.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal harus 6 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.', // Pesan error jika password tidak sama
         ]);
 
-        $data = [
+        // 2. Jika validasi lolos, buat user baru
+        $user = User::create([
             'username' => $request->username,
-            'password' => Hash::make($request->password)
-        ];
+            'password' => Hash::make($request->password),
+            'jenisAkun' => 'guest' // Atur peran default
+        ]);
 
-        $userAda = User::where('username', $request->username)->first();
+        // 3. (Opsional) Login-kan user secara otomatis setelah registrasi
+        // Auth::login($user);
 
-        // JIKA GAGAL
-        if ($userAda) {
-            return redirect()->back()->with('errorHeader', 'Registrasi Gagal')->with('error', 'Username sudah digunakan, harap gunakan username lain untuk melanjutkan.');
-        }
-
-        User::create($data);
-
-        $infologin = [
-            'username' => $request->username,
-            'password' => $request->password
-        ];
-
-        if (Auth::attempt($infologin)) {
-            return redirect('/donasi');
-        }
+        // 4. Redirect ke halaman login dengan pesan sukses
+        return redirect('/session') // atau url('session/index')
+            ->with('success', 'Registrasi berhasil! Silakan login dengan akun baru Anda.');
     }
 }

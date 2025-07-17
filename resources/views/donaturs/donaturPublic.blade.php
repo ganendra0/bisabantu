@@ -1,188 +1,112 @@
-@extends('layouts.header')
+@extends('layouts.app')
 @section('title', 'Daftar Donatur')
-{{-- LIST DONATUR PUBLIK --}}
 
-@section('content')
-    <div class="container mt-5">
-        <span class="fade-in">
-            <h1 class="text-center mb-4" id="gradient">
-                <i class="fa-solid fa-envelope-open-text"></i>
-                Daftar Donatur
-            </h1>
-        </span>
-
-        <div class="container mb-5">
-    <h2 class="text-center font-bold text-lg mb-3">🏆 Top Donatur</h2>
-    <ol class="list-decimal pl-5 leaderboard-list">
-        @forelse ($leaderboard as $index => $top)
-            <li class="mb-1">
-                <strong>{{ $top->nama }}</strong> –
-                <span class="text-green-500">Rp {{ number_format($top->total_donasi, 0, ',', '.') }}</span>
-            </li>
-        @empty
-            <p class="text-center">Belum ada donatur.</p>
-        @endforelse
-    </ol>
-</div>
-
-<form method="GET" action="{{ route('donaturs.public') }}" class="mb-4 text-center">
-    <label for="donation_id">Lihat Donatur untuk Kampanye:</label>
-    <select name="donation_id" id="donation_id" onchange="this.form.submit()" class="ml-2 p-1 rounded">
-    <option value="">-- Semua Kampanye --</option>
-    @foreach ($donations as $donation)
-        <option value="{{ $donation->id }}">
-    {{ $donation->name }}  {{-- ✅ sesuai kolom DB --}}
-</option>
-
-    @endforeach
-</select>
-</form>
-
-@if ($donationSelected)
-    <h3 class="text-center text-lg font-semibold mt-4">
-        Menampilkan Donatur untuk Kampanye: <span class="text-blue-600">{{ $donationSelected->name }}</span>
-    </h3>
-@endif
-
-
-
-        @if ($donaturs->isEmpty())
-            <p class="text-center">Belum ada donatur.</p>
-        @else
-            @foreach ($donaturs as $donatur)
-                <div class="card mb-3">
-                    <div class="header">
-                        <img src="https://i.ibb.co.com/nQQmMw8/ikonrupiah.png" class="image" />
-                        <div>
-                            <p class="name">{{ $donatur->nama }}</p>
-                            <p class="amount">
-                                <span class="donation-amount">Rp
-                                    {{ number_format($donatur->total_donasi, 0, ',', '.') }}</span>
-                                <span class="via-method"><i class="fa-solid fa-circle"></i> Via
-                                    {{ $donatur->tipe_bayar }}</span>
-                            </p>
-                            <p class="message">{{ $donatur->pesan }}</p>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        @endif
-    </div>
+@push('styles')
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
     <style>
-        #gradient {
+        /* Judul halaman */
+        .gradient-title {
             font-weight: 600;
-            background: linear-gradient(to right,
-                    #5374cd 20%,
-                    #00affa 30%,
-                    #0a92ec 70%,
-                    #4a64da 80%);
+            background: linear-gradient(to right, #5374cd, #00affa, #0a92ec, #4a64da);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-fill-color: transparent;
             background-size: 500% auto;
             animation: textShine 5s ease-in-out infinite alternate;
         }
 
         @keyframes textShine {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            100% {
-                background-position: 100% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 1.2s ease-in-out;
-        }
-
-        .fa-envelope-open-text {
+        .title-icon {
             font-size: 1.7rem;
             margin-right: 1rem;
-            vertical-align: 15%;
         }
 
-        .amount {
-            font-size: 1rem;
+        /* Leaderboard */
+        .leaderboard-card {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .leaderboard-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .leaderboard-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .donor-name {
             font-weight: 600;
+            color: #343a40;
         }
 
         .donation-amount {
-            color: #22c55e;
-            /* Hijau */
-        }
-
-        .via-method {
-            color: rgba(107, 114, 128, 1);
-            /* Abu-abu */
-            font-weight: 400;
-        }
-
-        .fa-circle {
-            font-size: 0.3rem;
-            padding: 0.5rem;
-            vertical-align: middle;
-            color: rgb(200, 206, 217);
-        }
-
-        .card {
-            background-color: rgba(243, 244, 246, 1);
-            padding: 1rem;
-            max-width: 1100px;
-            border-radius: 30px;
-            box-shadow: 0 20px 30px -20px rgba(5, 5, 5, 0.24);
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 1.5s forwards;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            grid-gap: 1rem;
-            gap: 1rem;
-        }
-
-        .header .image {
-            height: 4rem;
-            width: 4rem;
-            border-radius: 9999px;
-            object-fit: cover;
-            margin-left: 1rem;
-            margin-right: 0.7rem;
-            /* background-color: royalblue; */
-        }
-
-        .name {
-            margin-top: 0.1rem;
-            margin-bottom: 0.1rem;
-            font-size: 1.5rem;
-            line-height: 1.75rem;
+            color: #28a745;
             font-weight: 600;
-            color: rgba(55, 65, 81, 1);
         }
 
-        .message {
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            margin-top: -0.5rem;
-            color: rgba(107, 114, 128, 1);
+        /* Filter */
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 2rem;
         }
 
+        .filter-select {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 8px 12px;
+        }
+
+        .filter-select:focus {
+            border-color: #5374cd;
+            box-shadow: 0 0 0 2px rgba(83, 116, 205, 0.25);
+        }
+
+        /* Campaign info */
+        .campaign-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+
+        /* Kartu donatur */
+        .donatur-card {
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .donatur-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
 
         @keyframes fadeInUp {
             to {
@@ -191,29 +115,187 @@
             }
         }
 
-        .leaderboard-list {
-    background: #f9fafb;
-    padding: 1rem 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    max-width: 600px;
-    margin: 0 auto 2rem;
-    font-size: 1rem;
-    color: #374151;
-}
+        .donatur-avatar {
+            width: 100px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #e9ecef;
+        }
 
+        .donatur-name {
+            font-weight: 600;
+            color: #343a40;
+            margin-bottom: 5px;
+        }
+
+        .donatur-amount {
+            color: #28a745;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .payment-method {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .payment-dot {
+            font-size: 0.4em;
+            vertical-align: middle;
+            margin: 0 0.5em;
+        }
+
+        .donatur-message {
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #dee2e6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .gradient-title {
+                font-size: 1.8rem;
+            }
+            
+            .filter-section {
+                padding: 15px;
+            }
+            
+            .donatur-card .card-body {
+                padding: 15px;
+            }
+        }
     </style>
+@endpush
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.2}s`;
-            });
-        });
-    </script>
+@section('content')
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <h1 class="gradient-title">
+            <i class="fa-solid fa-envelope-open-text title-icon"></i>
+            Daftar Donatur
+        </h1>
+    </div>
 
+    <!-- Leaderboard -->
+    <div class="card leaderboard-card">
+        <div class="card-body">
+            <h4 class="card-title text-center font-weight-bold mb-3">
+                <i class="fas fa-trophy text-warning"></i> Top Donatur
+            </h4>
+            <ol class="leaderboard-list">
+                @forelse ($leaderboard as $index => $top)
+                    <li class="leaderboard-item">
+                        <span class="donor-name">{{ $loop->iteration }}. {{ $top->nama }}</span>
+                        <span class="donation-amount">Rp {{ number_format($top->total_donasi, 0, ',', '.') }}</span>
+                    </li>
+                @empty
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Belum ada donatur.</p>
+                    </div>
+                @endforelse
+            </ol>
+        </div>
+    </div>
 
+    <!-- Filter -->
+    <div class="filter-section">
+        <form method="GET" action="{{ route('donaturs.public') }}">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <label for="donation_id" class="font-weight-medium mb-2">
+                        <i class="fas fa-filter"></i> Lihat donatur untuk kampanye:
+                    </label>
+                    <select name="donation_id" id="donation_id" class="form-control filter-select" onchange="this.form.submit()">
+                        <option value="">-- Semua Kampanye --</option>
+                        @foreach ($donations as $donation)
+                            <option value="{{ $donation->id }}" {{ $donationSelected && $donationSelected->id == $donation->id ? 'selected' : '' }}>
+                                {{ $donation->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
 
-    </html>
+    <!-- Campaign Info -->
+    @if ($donationSelected)
+        <div class="campaign-info">
+            <h5 class="mb-0">
+                <i class="fas fa-bullseye"></i>
+                Menampilkan donatur untuk: <strong>{{ $donationSelected->name }}</strong>
+            </h5>
+        </div>
+    @endif
+
+    <!-- Daftar Donatur -->
+    @forelse ($donaturs as $donatur)
+        <div class="card donatur-card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <img src="https://i.ibb.co.com/nQQmMw8/ikonrupiah.png" class="donatur-avatar" alt="Avatar Donatur"/>
+                    </div>
+                    <div class="col">
+                        <h5 class="donatur-name">{{ $donatur->nama }}</h5>
+                        <div class="mb-2">
+                            <span class="donatur-amount">Rp {{ number_format($donatur->total_donasi, 0, ',', '.') }}</span>
+                            <span class="payment-method">
+                                <i class="fa-solid fa-circle payment-dot"></i>
+                                Via {{ $donatur->tipe_bayar }}
+                            </span>
+                        </div>
+                        @if($donatur->pesan)
+                            <div class="donatur-message">
+                                <i class="fas fa-quote-left"></i>
+                                {{ $donatur->pesan }}
+                            </div>
+                        @else
+                            <div class="donatur-message">
+                                Semoga berkah selalu.
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @empty
+        <div class="empty-state">
+            <i class="fas fa-hand-holding-heart"></i>
+            <h4>Belum ada donatur</h4>
+            <p>Belum ada donatur untuk kampanye ini.</p>
+        </div>
+    @endforelse
+</div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animasi berurutan untuk kartu donatur
+        const cards = document.querySelectorAll('.donatur-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    });
+</script>
+@endpush

@@ -1,204 +1,118 @@
-@extends('layouts.header')
-@section('title', 'Mulai Donasi')
-{{-- TAMPIL INFO DONASI TERKUMPUL --}}
+{{-- Menggunakan layout utama yang sudah kita buat --}}
+@extends('layouts.app')
 
+{{-- Menetapkan judul halaman --}}
+@section('title', 'Dukung Kampanye Kami - Donasi Sosial')
+
+{{-- Konten utama halaman kampanye --}}
 @section('content')
+<section id="campaigns" class="campaigns-section">
     <div class="container">
-        @foreach($donations as $donation)
-        <div class="card mb-3 mt-4" id="animated-card-{{ $loop->index }}">
-            <img class="card-img-top" src="{{ asset('uploads/'.$donation->gambar) }}" alt="{{ $donation->name }}" />
-        
-            <div class="card-body">
-                {{-- PARAGRAF 1 --}}
-                <h5 class="card-title">{{ $donation->name }}</h5>
-                <p class="card-text description">{{ $donation->message ?: 'Mari bersama-sama membantu mereka yang membutuhkan' }}</p>
-                <p class="card-text" id="total-donatur"><i class="fa-regular fa-circle-check"></i>{{ $donation->donaturs->count() }} Orang
-                    Telah Berdonasi </i>
-                </p>
-
-                <div class="row">
-                    {{-- SECTION KIRI --}}
-                    <div class="col-sm">
-                        {{-- PARAGRAF 2 --}}
-                        <p class="card-text" id="total-kumpul">Rp {{ number_format($donation->total_terkumpul, 0, ',', '.') }}</p>
-                        {{-- PARAGRAF 3 --}}
-                        <p class="card-text" id="total-jumlah">Terkumpul dari <strong>Rp {{ number_format($donation->target, 0, ',', '.') }}</strong></p>
-                    </div>
-
-                    {{-- SECTION KANAN --}}
-                    <div class="col-sm text-right">
-                        <a href="/pembayaran?donation_id={{ $donation->id }}">
-                            {{-- TOMBOL DONASI --}}
-                            <button class="pushable">
-                                <span class="shadow"></span>
-                                <span class="edge"></span>
-                                <span class="front">Mulai Donasi</span>
-                            </button>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="progress">
-                    @php
-                        $persentase = $donation->target > 0 ? ($donation->total_terkumpul / $donation->target) * 100 : 0;
-                        $persentase = min($persentase, 100);
-                    @endphp
-
-                    <div class="progress-bar" role="progressbar" style="width: {{ $persentase }}%;"
-                        aria-valuenow="{{ $persentase }}" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-
-            </div>
+        {{-- Bagian header dari template statis --}}
+        <div class="section-header">
+            <div class="tag">Kampanye Kami</div>
+            <h2 class="kampanye-section-title">Dukung Inisiatif Kami</h2>
+            <p class="kampanye-section-description">Setiap donasi, sekecil apapun, memberikan dampak besar. Pilih kampanye yang ingin Anda dukung.</p>
         </div>
-        @endforeach
+
+        {{-- Grid untuk menampung semua kartu kampanye --}}
+        <div class="campaigns-grid" id="campaigns-grid">
+
+            {{--
+                LOOPING DINAMIS:
+                Mengambil logika dari kode dinamis Anda (@foreach) untuk menampilkan setiap kampanye.
+                Pastikan Controller Anda mengirimkan variabel bernama $donations.
+            --}}
+            @forelse ($donations as $donation)
+                
+                {{-- MENGGUNAKAN STRUKTUR KARTU DARI TEMPLATE STATIS --}}
+                <div class="campaign-card" id="animated-card-{{ $loop->index }}">
+                    
+                    {{-- Gambar dinamis --}}
+                    <img src="{{ asset('uploads/' . $donation->gambar) }}" width="400" height="225" alt="Gambar Kampanye: {{ $donation->name }}" class="campaign-image">
+                    
+                    <div class="card-header">
+                        {{-- Judul dinamis --}}
+                        <h3 class="card-title">{{ $donation->name }}</h3>
+                        {{-- Deskripsi dinamis, dengan pesan default jika kosong --}}
+                        <p class="card-description">{{ $donation->message ?: 'Mari bersama-sama membantu mereka yang membutuhkan.' }}</p>
+                    </div>
+
+                    <div class="card-content">
+                        {{-- Teks progres dinamis --}}
+                        <div class="progress-text">
+                            Terkumpul: Rp{{ number_format($donation->total_terkumpul, 0, ',', '.') }} dari Rp{{ number_format($donation->target, 0, ',', '.') }}
+                        </div>
+                        <div class="progress-bar-container">
+                            {{-- Logika progress bar dinamis --}}
+                            @php
+                                $persentase = $donation->target > 0 ? ($donation->total_terkumpul / $donation->target) * 100 : 0;
+                                $persentase = min($persentase, 100);
+                            @endphp
+                            <div class="progress-bar" style="width: {{ $persentase }}%;"></div>
+                        </div>
+                        {{-- Tambahan: Tampilkan jumlah donatur jika ingin --}}
+                        <p class="donatur-count">
+                            <i class="fa-regular fa-circle-check"></i> {{ $donation->donaturs->count() }} Orang Telah Berdonasi
+                        </p>
+                    </div>
+
+                    <div class="card-footer">
+                        {{-- Tombol donasi dinamis --}}
+                        <a href="/pembayaran?donation_id={{ $donation->id }}" class="btn btn-primary w-full">Donasi Sekarang</a>
+                    </div>
+                </div>
+
+            @empty
+                {{-- Pesan jika tidak ada kampanye yang ditemukan --}}
+                <p>Saat ini belum ada kampanye yang tersedia untuk didukung.</p>
+            @endforelse
+
+        </div>
     </div>
-
-    <style>
-        /* ANIMASI */
-        [id^="animated-card"] {
-            animation: scrollUp 1s ease-in-out forwards;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.096), 0 6px 30px rgba(0, 0, 0, 0.096);
-        }
-
-        .description {
-            color: #666;
-            font-style: italic;
-            margin-bottom: 15px;
-            line-height: 1.4;
-        }
-
-        @keyframes scrollUp {
-            0% {
-                transform: translateY(10px);
-                opacity: 0;
-            }
-
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .fa-circle-check {
-            font-size: 0.9em;
-            margin-right: 0.4em;
-        }
-
-        .card-title {
-            font-weight: bold;
-            font-size: 25px;
-            margin-bottom: 0%;
-        }
-
-        #total-donatur {
-            margin-bottom: 30px;
-        }
-
-        #total-kumpul {
-            font-size: 20px;
-            font-weight: bold;
-            color: #007bff;
-            margin-bottom: -0.3%;
-        }
-
-        #total-jumlah {
-            font-size: 15px;/
-        }
-
-        #total-jumlah strong {
-            font-weight: 600;
-        }
-
-        .progress {
-            margin-top: 1rem;
-            margin-bottom: 0.2rem;
-            border-radius: 20px;
-            height: 5px;
-        }
-
-        .progress-bar {
-            /* background-color: #007bff; */
-            border-radius: 20px;
-            animation: animateProgressBar 2s ease-out;
-            background: -webkit-linear-gradient(left, #4df3ff 0%, #007bff 100%);
-        }
-
-
-        @keyframes animateProgressBar {
-            from {
-                width: 0%;
-            }
-
-            to {
-                width: 100%;
-            }
-        }
-
-        .pushable {
-            margin-top: 0.2rem;
-            position: relative;
-            background: transparent;
-            padding: 0px;
-            border: none;
-            cursor: pointer;
-            outline-offset: 4px;
-            outline-color: deeppink;
-            transition: filter 250ms;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
-
-        .edge {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            border-radius: 12px;
-            background: #073abb;
-        }
-
-        .front {
-            display: block;
-            position: relative;
-            border-radius: 12px;
-            background: #007bff;
-            padding: 12px 32px;
-            color: white;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 1rem;
-            transform: translateY(-4px);
-            transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
-        }
-
-        .pushable:hover {
-            filter: brightness(110%);
-        }
-
-        .pushable:hover .front {
-            transform: translateY(-6px);
-            transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
-        }
-
-        .pushable:active .front {
-            transform: translateY(-2px);
-            transition: transform 34ms;
-        }
-
-        .pushable:hover .shadow {
-            transform: translateY(4px);
-            transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
-        }
-
-        .pushable:active .shadow {
-            transform: translateY(1px);
-            transition: transform 34ms;
-        }
-
-        .pushable:focus:not(:focus-visible) {
-            outline: none;
-        }
-    </style>
+</section>
 @endsection
+
+
+{{-- MENAMBAHKAN CSS SPESIFIK: Mengambil style dari kode dinamis Anda --}}
+@push('styles')
+<style>
+    /* Menambahkan style khusus untuk kartu yang dinamis */
+    .campaign-card#animated-card-0,
+    .campaign-card#animated-card-1,
+    .campaign-card#animated-card-2, 
+    .campaign-card { /* Fallback untuk semua kartu */
+        animation: scrollUp 1s ease-in-out forwards;
+        opacity: 0;
+    }
+    
+    /* Delay animasi agar muncul satu per satu */
+    .campaign-card#animated-card-1 { animation-delay: 0.2s; }
+    .campaign-card#animated-card-2 { animation-delay: 0.4s; }
+    /* ...tambahkan jika perlu... */
+
+    @keyframes scrollUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .donatur-count {
+        font-size: 0.8rem;
+        color: #666;
+        margin-top: 10px;
+    }
+
+    .donatur-count .fa-circle-check {
+        margin-right: 5px;
+        color: #28a745; /* Warna hijau untuk ikon cek */
+    }
+
+    /* Anda bisa memindahkan style ini ke file style.css utama jika diinginkan */
+</style>
+@endpush
