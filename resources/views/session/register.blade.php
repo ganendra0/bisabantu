@@ -111,11 +111,17 @@
             @csrf
             <div class="header">Registrasi</div>
             <div class="inputs">
-                <input name="username" placeholder="Username" class="input" type="text" required
-                    value="{{ Session::get('username') }}">
-                <input name="password" placeholder="Password" class="input" type="password" required>
+                @if($errors->any())
+                <div style="color: #e74c3c; margin-bottom: 10px; text-align: center;">
+                    @foreach($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+                @endif
                 
-                {{-- INI BAGIAN YANG DITAMBAHKAN --}}
+                <input name="username" placeholder="Username" class="input" type="text" required
+                    value="{{ old('username') }}">
+                <input name="password" placeholder="Password" class="input" type="password" required>
                 <input name="password_confirmation" placeholder="Konfirmasi Password" class="input" type="password" required>
                 
                 <button name="submit" type="submit" class="sigin-btn">Daftar</button>

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-// use Illuminate\Contracts\Session\Session; // Ini tidak perlu di-import
+use Illuminate\Support\Facades\Session;
 
 class SessionController extends Controller
 {
@@ -15,7 +15,7 @@ class SessionController extends Controller
      */
     function index()
     {
-        return view("session.index"); // Gunakan titik untuk path view
+        return view("session.index");
     }
 
     /**
@@ -46,8 +46,8 @@ class SessionController extends Controller
 
         // 4. Jika login gagal
         return back()->withErrors([
-            'username' => 'Username atau password yang Anda masukkan salah.',
-        ])->onlyInput('username'); // Kembalikan ke halaman login dengan pesan error dan input username
+            'loginError' => 'Username atau password yang Anda masukkan salah.',
+        ])->withInput($request->only('username')); // Kembalikan ke halaman login dengan pesan error dan input username
     }
 
     /**
@@ -68,7 +68,7 @@ class SessionController extends Controller
      */
     function register()
     {
-        return view('session.register'); // Gunakan titik untuk path view
+        return view('session.register');
     }
 
     /**
@@ -79,27 +79,30 @@ class SessionController extends Controller
         // 1. Validasi input dengan aturan baru
         $request->validate([
             'username' => 'required|string|max:255|unique:users,username',
-            'password' => 'required|string|min:6|confirmed', // INI PERUBAHAN UTAMANYA
+            'password' => 'required|string|min:6|confirmed',
         ], [
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username ini sudah digunakan, silakan pilih yang lain.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal harus 6 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.', // Pesan error jika password tidak sama
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
-        // 2. Jika validasi lolos, buat user baru
-        $user = User::create([
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'jenisAkun' => 'guest' // Atur peran default
-        ]);
+        try {
+            // 2. Jika validasi lolos, buat user baru
+            $user = User::create([
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'jenisAkun' => 'guest'
+            ]);
 
-        // 3. (Opsional) Login-kan user secara otomatis setelah registrasi
-        // Auth::login($user);
-
-        // 4. Redirect ke halaman login dengan pesan sukses
-        return redirect('/session') // atau url('session/index')
-            ->with('success', 'Registrasi berhasil! Silakan login dengan akun baru Anda.');
+            // 3. Redirect ke halaman login dengan pesan sukses
+            return redirect('/session')
+                ->with('success', 'Registrasi berhasil! Silakan login dengan akun baru Anda.');
+        } catch (\Exception $e) {
+            // 4. Jika terjadi error saat membuat user
+            return back()->withInput($request->only('username'))
+                ->withErrors(['registerError' => 'Terjadi kesalahan saat mendaftarkan akun. Silakan coba lagi.']);
+        }
     }
 }

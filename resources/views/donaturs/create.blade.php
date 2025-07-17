@@ -1,6 +1,9 @@
 @extends('layouts.header')
 @section('title', 'Pembayaran')
 {{-- TAMBAH DONASI --}}
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
 
 @section('content')
     <div class="d-flex justify-content-center">
@@ -17,7 +20,7 @@
             <div class="card" id="card1">
                 <span class="title">Informasi Donatur</span>
                 <div class="group">
-                    <input placeholder="" type="text" id="name" name="nama" value="{{ old('nama') }}" />
+                    <input placeholder="" type="text" id="name" name="nama" value="{{ old('nama', Auth::user() ? Auth::user()->username : '') }}" />
 
                     <label for="name">Nama</label>
                     @if ($errors->has('nama'))
@@ -30,10 +33,6 @@
                     @if ($errors->has('pesan'))
                         <div class="error">{{ $errors->first('pesan') }}</div>
                     @endif
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="anonim" />
-                    <label class="form-check-label" for="anonim">Donasi sebagai Anonim</label>
                 </div>
             </div>
 

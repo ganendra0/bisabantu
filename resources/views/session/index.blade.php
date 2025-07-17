@@ -116,8 +116,20 @@
             @csrf
             <div class="header">Masuk</div>
             <div class="inputs">
+                @if($errors->any())
+                <div style="color: #e74c3c; margin-bottom: 10px; text-align: center;">
+                    {{ $errors->first('loginError') }}
+                </div>
+                @endif
+                
+                @if(session('success'))
+                <div style="color: #2ecc71; margin-bottom: 10px; text-align: center;">
+                    {{ session('success') }}
+                </div>
+                @endif
+                
                 <input name="username" placeholder="Username" class="input" type="text" required
-                    value="{{ Session::get('username') }}">
+                    value="{{ old('username') }}">
                 <input name="password" placeholder="Password" class="input" type="password" required>
                 <button name="submit" type="submit" class="sigin-btn">Login</button>
             </div>
