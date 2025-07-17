@@ -43,23 +43,5 @@
     </section>
     
     <!-- Call to Action Section -->
-    <section id="contact" class="cta-section">
-        <div class="container cta-content">
-            <div class="cta-text">
-                <h2 class="section-title">Ingin Terlibat Lebih Jauh?</h2>
-                <p class="section-description">Daftar untuk menerima pembaruan, berita kampanye, dan peluang sukarelawan.</p>
-            </div>
-            <div class="cta-form-container">
-                <form class="cta-form" method="POST" action="{{ url('/subscribe') }}">
-                    @csrf {{-- Token CSRF untuk keamanan form --}}
-                    <input type="email" name="email" placeholder="Masukkan email Anda" class="input cta-input" required>
-                    <button type="submit" class="btn btn-primary">Daftar</button>
-                </form>
-                <p class="cta-terms">
-                    Dengan mendaftar, Anda menyetujui
-                    <a href="{{ url('/syarat-ketentuan') }}" class="underline">Syarat & Ketentuan</a>.
-                </p>
-            </div>
-        </div>
-    </section>
+    
 @endsection

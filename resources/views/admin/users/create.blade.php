@@ -26,18 +26,19 @@
                         <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" value="{{ old('username') }}" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Password</label>
                         <input type="password" name="password" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Role</label>
-                        <select name="role" class="form-control" required>
-                            <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
-                            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                        <label class="form-label">Jenis Akun</label>
+                        <select name="jenisAkun" class="form-control" required>
+                            <option value="user" {{ old('jenisAkun') == 'user' ? 'selected' : '' }}>User</option>
+                            <option value="admin" {{ old('jenisAkun') == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="guest" {{ old('jenisAkun') == 'guest' ? 'selected' : '' }}>Guest</option>
                         </select>
                     </div>
                     <div class="d-flex gap-2">

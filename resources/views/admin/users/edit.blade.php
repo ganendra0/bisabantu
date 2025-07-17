@@ -24,21 +24,22 @@
                     @method('PUT')
                     <div class="mb-3">
                         <label class="form-label">Nama</label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
+                        <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" value="{{ old('username', $user->username) }}" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Password (kosongkan jika tidak ingin mengubah)</label>
                         <input type="password" name="password" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Role</label>
-                        <select name="role" class="form-control" required>
-                            <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>User</option>
-                            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                        <label class="form-label">Jenis Akun</label>
+                        <select name="jenisAkun" class="form-control" required>
+                            <option value="user" {{ old('jenisAkun', $user->jenisAkun) == 'user' ? 'selected' : '' }}>User</option>
+                            <option value="admin" {{ old('jenisAkun', $user->jenisAkun) == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="guest" {{ old('jenisAkun', $user->jenisAkun) == 'guest' ? 'selected' : '' }}>Guest</option>
                         </select>
                     </div>
                     <div class="d-flex gap-2">

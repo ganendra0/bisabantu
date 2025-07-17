@@ -41,7 +41,7 @@ class SessionController extends Controller
         // 3. Coba lakukan login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate(); // Regenerasi session untuk keamanan
-            return redirect()->intended('/donasi'); // Redirect ke halaman yang dituju atau default ke /donasi
+            return redirect()->intended('/'); // Redirect ke halaman yang dituju atau default ke /donasi
         }
 
         // 4. Jika login gagal
